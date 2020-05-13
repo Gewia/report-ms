@@ -1,0 +1,7 @@
+flask==1.1.1
+pyjwt===1.7.1
+flask_sqlalchemy===2.4.1
+psycopg2-binary==2.8.5
+Flask-RESTful==0.3.8
+sentry-sdk[flask]==0.14.3
+uwsgi 

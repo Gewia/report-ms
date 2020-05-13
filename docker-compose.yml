@@ -1,0 +1,38 @@
+version: '3.7'
+
+services:
+
+    report_database:
+      image: postgres:latest
+      environment:
+        - POSTGRES_DB=report
+        - POSTGRES_USER=report
+        - POSTGRES_PASSWORD=test #! change bevore deploy
+      restart: unless-stopped
+      container_name: report_database
+      hostname: report_database
+
+    report_ms:
+      image: report-ms
+      environment:
+        - DB_HOSTNAME=report_database
+        - DB_USERNAME=report
+        - DB_PASSWORD=test  #! change bevore deploy
+        - DB_DATABASE=report
+        - conf_mode=deploy
+        - JWT_Secret=test #! change bevore deploy
+        - MS_Secret=test #! change bevore deploy
+        #? add sentry data
+        - SENTRY_KEY=
+        - SENTRY_ORGANIZATION=
+        - SENTRY_PROJECT=
+        - ALL_SENTRY_VALUES_SET=no #! set to added if sentry data set
+      build: .
+      volumes:
+        - "./:/app"
+      restart: unless-stopped
+      container_name: report_ms
+      ports: 
+        - "5000:5000"
+      depends_on: 
+        - report_database
